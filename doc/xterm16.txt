@@ -1,0 +1,93 @@
+*xterm16.txt* 16 color Colorscheme for Vim
+
+
+Description: ~
+
+    Color scheme for a 16 color terminal. Looks best if you use xterm with
+    your terminal set to "xterm-16color" (that way you get to use 24 colors!).
+    Works just fine with other 8 or 16 color terminals. Defines GUI colors to
+    be identical to the terminal colors.
+
+Files: ~
+
+    |xterm16.vim|	: Color scheme file
+    |xterm16.schema|	: Color schema for Konsole
+    |xterm.ad|		: Xterm Resources File
+    |xterm_colors.ad|	: Xterm Resources File (colors only)
+    |xterm16.txt|	: This Help file
+
+
+Installation: ~
+							*xterm16.vim*
+    For local installation, put the "xterm16.vim" file in your ~/.vim/colors
+    direcotory. To install globally put it in $VIMRUNTIME/colors. Ofcourse,
+    you might want to add "colo xterm16" somewhere in your .vimrc ...
+
+							*terminal_colors*
+    Of the many terminals which support 16 colors, {xterm} is by far the best.
+    However in xterm, and in most other terminal programs, some of the default
+    colors are unreadable. The rest of this explains how you can customise
+    your colors in |xterm|, |konsole| and |gnome-terminal|.
+
+							*xterm*
+    Best results are recieved if you use {xterm} and set the terminal name to
+    {xterm-16color}. In this way, vim can use 24 colors! (16 normal colors,
+    and 8 bolded ones). If you run into trouble with backspace / shifted
+    cursor keys, see the section on |keyboard_problems|.
+    
+							*xterm_colors.ad*
+    The file |xterm_colors.ad| contains the application resources required to
+    change the default colors in xterm (mainly to make the darkdark blue, and
+    red colors more readable). If you use xterm, and want to change it's
+    default colors either merge the contents of this file with your
+    {.Xresources} file, or add the following line to your {.Xinitrc} or
+    {.xsession}: >
+
+	xrdb -merge xterm_colors.ad
+
+<   							*xterm.ad*
+    In addition to changing the default xterm colors, the file |xterm.ad| also
+    changes a few other default options (including scrollbar appearance, and
+    setting the default terminal name to {xterm-16color}). If you like these
+    options, use this file instead of |xterm_colors.ad|.
+
+							*keyboard_problems*
+    If using the {xterm-16color} terminal name gives you trouble with shifted
+    cursor keys, then add the following lines to your .vimrc: (type the ^[ as
+    a literal escape!) >
+
+	if($TERM == 'xterm-16color')
+	    set <S-Up>=[1;2A
+	    set <S-Down>=[1;2B
+	    set <S-Left>=[1;2D
+	    set <S-Right>=[1;2C
+	    set <C-Left>=[1;5D
+	    set <C-Right>=[1;5C
+	endif
+
+<   If your system is not configured properly, and you have trouble with
+    backspace, then add the following line to your .cshrc / .bash_profile: >
+
+	stty dec
+< 							*konsole*
+ 							*xterm16.schema*
+    If you use Konsole and want to change the default konsole colors add the
+    |xterm16.schema| file to your .kde/share/apps/konsole directory. Select
+    the "Xterm 16 Colors" schema from the schema menu.
+
+							*gnome-terminal*
+    If you use gnome-terminal and want to change the default colors, run
+    {gconf-editor} and select the apps - gnome-terminal - profiles - Default
+    menu, and change the palette option to the string (all in one line!) >
+
+    #000000:#CD0000:#00CD00:#CDCD00:#0000FF:#CD00CD:#00CDCD:#C0C0C0:#808080:#FF0000:#00FF00:#FFFF00:#0080FF:#FF00FF:#00FFFF:#FFFFFF
+
+<   Note: In both |konsole| and |gnome-terminal| vim will only use 16 colors.
+    The bolded colors will only be the bright colors. |xterm| however will use
+    bolded colors correctly provided you set the terminal to {xterm-16color}.
+
+
+----------------------------------------------------------------------------
+Maintainer: Gautam Iyer <gautam@math.uchicago.edu>
+>
+ vim: ft=help:tw=78:iskeyword=!-~,^*,^|,^":ai:

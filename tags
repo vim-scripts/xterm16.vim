@@ -1,0 +1,10 @@
+gnome-terminal	xterm16.txt	/*gnome-terminal*
+keyboard_problems	xterm16.txt	/*keyboard_problems*
+konsole	xterm16.txt	/*konsole*
+terminal_colors	xterm16.txt	/*terminal_colors*
+xterm	xterm16.txt	/*xterm*
+xterm.ad	xterm16.txt	/*xterm.ad*
+xterm16.schema	xterm16.txt	/*xterm16.schema*
+xterm16.txt	xterm16.txt	/*xterm16.txt*
+xterm16.vim	xterm16.txt	/*xterm16.vim*
+xterm_colors.ad	xterm16.txt	/*xterm_colors.ad*
