@@ -16,6 +16,11 @@ Files: ~
     |xterm_colors.ad|	: Xterm Resources File (colors only)
     |xterm16.txt|	: This Help file
 
+Options: ~
+    |xterm16_NoRemap|	: Disable dark blue remaping on 8 color terminals
+    |xterm16_TermRegexp|: Regexp of terminals where dark blue is unreadable
+    |xterm16_NoHtmlColors|: Disable remaping of htmlcolors.
+    |GUI_colors|	: Customise some GUI colors (if you don't like mine)
 
 Installation: ~
 							*xterm16.vim*
@@ -26,15 +31,41 @@ Installation: ~
 							*terminal_colors*
     Of the many terminals which support 16 colors, {xterm} is by far the best.
     However in xterm, and in most other terminal programs, some of the default
-    colors are unreadable. The rest of this explains how you can customise
-    your colors in |xterm|, |konsole| and |gnome-terminal|.
+    colors are unreadable. For help on customising colors on your favourite
+    terminal, look under the sections |xterm|, |konsole| and |gnome-terminal|.
 
-							*xterm*
+							*8_color_terminals*
+				*xterm16_NoRemap* *xterm16_TermRegexp*
+    On a linux console (and some other 8 color terminals), the darkblue
+    (PreProc) is unreadble so we remap it. To disable this feature, set the
+    variable |xterm16_NoRemap| in your {.vimrc}
+
+    If this color gives you trouble on other terminals, and you want it
+    changed elsewhere too set the variable |xterm16_TermRegexp| to a regexp
+    matching all troublesome terminals.
+
+						*xterm* *xterm-16color*
     Best results are recieved if you use {xterm} and set the terminal name to
     {xterm-16color}. In this way, vim can use 24 colors! (16 normal colors,
     and 8 bolded ones). If you run into trouble with backspace / shifted
     cursor keys, see the section on |keyboard_problems|.
     
+							*GUI_colors*
+    If you want to change any one paticular color (or all) on the GUI, just
+    define the variable {g:colorname} before you load this color scheme. The
+    list of colors are >
+	black, darkred, darkgreen, darkyellow, darkblue, darkmagenta,
+	darkcyan, grey, darkgrey, red, green, yellow, blue, magenta, cyan,
+	white
+
+<					*html_colors* *xterm16_NoHtmlColors*
+    Html groups use cterm attributes (which SUCK), so we change them here. The
+    GUI attributes are OK, and are unchanged. If you do not want your precious
+    html groups touched, set the variable |xterm16_NoHtmlColors| in your
+    {.vimrc}
+
+    If html colors don't work correctly, set the variable |html_no_rendering|
+
 							*xterm_colors.ad*
     The file |xterm_colors.ad| contains the application resources required to
     change the default colors in xterm (mainly to make the darkdark blue, and
@@ -53,7 +84,7 @@ Installation: ~
 
 							*keyboard_problems*
     If using the {xterm-16color} terminal name gives you trouble with shifted
-    cursor keys, then add the following lines to your .vimrc: (type the ^[ as
+    cursor keys, then add the following lines to your .vimrc: (type the  as
     a literal escape!) >
 
 	if($TERM == 'xterm-16color')

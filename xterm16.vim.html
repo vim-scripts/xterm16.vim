@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>~/src/vim/xterm16/xterm16.vim.html</title>
+<meta name="Generator" content="Vim/6.2">
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+.Constant { color: #cdcd00; }
+.Type { color: #00ff00; }
+.Identifier { color: #00cdcd; }
+.PreProc { color: #0080ff; }
+.Statement { color: #00ffff; }
+pre { color: #c0c0c0; background-color: #000000; }
+body { color: #c0c0c0; background-color: #000000; }
+.Comment { color: #cd0000; }
+<!--
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Comment">&quot; xterm16 color scheme file</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Maintainer:</span><span class="Comment">   Gautam Iyer &lt;gautam@math.uchicago.edu&gt;</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Created:</span><span class="Comment">      Thu 16 Oct 2003 06:17:47 PM CDT</span>
+<span class="Comment">&quot;</span> <span class="PreProc">Modified:</span><span class="Comment">     Thu 06 Nov 2003 04:05:21 PM CST</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; Sets colors for a 16 color terminal. Can be used with 8 color terminals</span>
+<span class="Comment">&quot; provided VIM is configured to set the bold attribute for higher colors.</span>
+<span class="Comment">&quot; Defines GUI colors to be identical to the terminal colors</span>
+
+<span class="Statement">set</span> <span class="PreProc">bg</span>=dark
+<span class="Statement">hi</span> clear
+
+<span class="Statement">if</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;syntax_on&quot;</span>)
+    <span class="Statement">syntax</span> <span class="Type">reset</span>
+<span class="Statement">endif</span>
+
+<span class="Statement">let</span> colors_name <span class="Statement">=</span> <span class="Constant">'xterm16'</span>
+
+<span class="Comment">&quot; cterm colors</span>
+<span class="Statement">hi</span> normal       <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=grey            <span class="Type">ctermbg</span>=black
+
+<span class="Statement">hi</span> cursor       <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=black           <span class="Type">ctermbg</span>=green
+<span class="Statement">hi</span> incsearch    <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=grey            <span class="Type">ctermbg</span>=darkblue
+<span class="Statement">hi</span> moremsg      <span class="Type">cterm</span>=<span class="PreProc">bold</span>      <span class="Type">ctermfg</span>=green           <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> nontext      <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=blue            <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> search       <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=black           <span class="Type">ctermbg</span>=darkcyan
+<span class="Statement">hi</span> specialkey   <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=blue            <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> statusline   <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkblue        <span class="Type">ctermbg</span>=grey
+<span class="Statement">hi</span> statuslinenc <span class="Type">cterm</span>=<span class="PreProc">reverse</span>   <span class="Type">ctermfg</span>=<span class="PreProc">none</span>            <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> title        <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=magenta         <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> visual       <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=<span class="PreProc">none</span>            <span class="Type">ctermbg</span>=darkblue
+<span class="Statement">hi</span> visualnos    <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=<span class="PreProc">none</span>            <span class="Type">ctermbg</span>=darkgrey
+<span class="Statement">hi</span> warningmsg   <span class="Type">cterm</span>=<span class="PreProc">bold</span>      <span class="Type">ctermfg</span>=red             <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+
+<span class="Statement">hi</span> comment      <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkred         <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> constant     <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkyellow      <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> error        <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=white           <span class="Type">ctermbg</span>=red
+<span class="Statement">hi</span> identifier   <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkcyan        <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> ignore       <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkgrey        <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> preproc      <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=blue            <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> special      <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkgreen       <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> statement    <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=cyan            <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> type         <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=green           <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+<span class="Statement">hi</span> todo         <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=black           <span class="Type">ctermbg</span>=yellow
+<span class="Statement">hi</span> underlined   <span class="Type">cterm</span>=<span class="PreProc">none</span>      <span class="Type">ctermfg</span>=darkmagenta     <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+
+<span class="Comment">&quot; Define GUI colors to be exactly the same as xterm colors</span>
+<span class="Comment">&quot; If you want to change any one paticular color (or all), just define the</span>
+<span class="Comment">&quot; variable</span><span class="Constant"> &quot;g:colorname&quot;</span><span class="Comment"> before you load this color scheme. </span>
+
+<span class="Statement">let</span> s:<span class="Type">none</span>              <span class="Statement">=</span> <span class="Constant">'NONE'</span>
+<span class="Statement">let</span> s:black             <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:black&quot;</span>) ? g:black :             <span class="Constant">'#000000'</span>
+<span class="Statement">let</span> s:darkred           <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkred&quot;</span>) ? g:darkred :         <span class="Constant">'#CD0000'</span>
+<span class="Statement">let</span> s:darkgreen         <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkgreen&quot;</span>) ? g:darkgreen :     <span class="Constant">'#00CD00'</span>
+<span class="Statement">let</span> s:darkyellow        <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkyellow&quot;</span>) ? g:darkyellow :   <span class="Constant">'#CDCD00'</span>
+<span class="Statement">let</span> s:darkblue          <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkblue&quot;</span>) ? g:darkblue :       <span class="Constant">'#0000FF'</span>
+<span class="Statement">let</span> s:darkmagenta       <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkmagenta&quot;</span>) ? g:darkmagenta : <span class="Constant">'#CD00CD'</span>
+<span class="Statement">let</span> s:darkcyan          <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkcyan&quot;</span>) ? g:darkcyan :       <span class="Constant">'#00CDCD'</span>
+<span class="Statement">let</span> s:grey              <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:grey&quot;</span>) ? g:grey :               <span class="Constant">'#C0C0C0'</span>
+<span class="Statement">let</span> s:darkgrey          <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:darkgrey&quot;</span>) ? g:darkgrey :       <span class="Constant">'#808080'</span>
+<span class="Statement">let</span> s:<span class="Statement">red</span>               <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:red&quot;</span>) ? g:red :                 <span class="Constant">'#FF0000'</span>
+<span class="Statement">let</span> s:green             <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:green&quot;</span>) ? g:green :             <span class="Constant">'#00FF00'</span>
+<span class="Statement">let</span> s:yellow            <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:yellow&quot;</span>) ? g:yellow :           <span class="Constant">'#FFFF00'</span>
+<span class="Statement">let</span> s:blue              <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:blue&quot;</span>) ? g:blue :               <span class="Constant">'#0080FF'</span>
+<span class="Statement">let</span> s:magenta           <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:magenta&quot;</span>) ? g:magenta :         <span class="Constant">'#FF00FF'</span>
+<span class="Statement">let</span> s:cyan              <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:cyan&quot;</span>) ? g:cyan :               <span class="Constant">'#00FFFF'</span>
+<span class="Statement">let</span> s:white             <span class="Statement">=</span> <span class="Identifier">exists</span>(<span class="Constant">&quot;g:white&quot;</span>) ? g:white :             <span class="Constant">'#FFFFFF'</span>
+
+<span class="Comment">&quot; Set the hilight groups for GUI</span>
+
+<span class="Statement">exec</span> <span class="Constant">&quot;hi normal       gui=none  guifg=&quot;</span><span class="Statement">.</span>s:grey  <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:black
+
+<span class="Statement">exec</span> <span class="Constant">&quot;hi cursor       gui=bold  guifg=&quot;</span><span class="Statement">.</span>s:black         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:green
+<span class="Statement">exec</span> <span class="Constant">&quot;hi incsearch    gui=none  guifg=&quot;</span><span class="Statement">.</span>s:grey          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:darkblue
+<span class="Statement">exec</span> <span class="Constant">&quot;hi moremsg      gui=bold  guifg=&quot;</span><span class="Statement">.</span>s:green         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi nontext      gui=none  guifg=&quot;</span><span class="Statement">.</span>s:blue          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi search       gui=none  guifg=&quot;</span><span class="Statement">.</span>s:black         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:darkcyan
+<span class="Statement">exec</span> <span class="Constant">&quot;hi specialkey   gui=none  guifg=&quot;</span><span class="Statement">.</span>s:blue          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi statusline   gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkblue      <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:grey
+<span class="Statement">exec</span> <span class="Constant">&quot;hi statuslinenc gui=none  guifg=&quot;</span><span class="Statement">.</span>s:black         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:grey
+<span class="Statement">exec</span> <span class="Constant">&quot;hi title        gui=none  guifg=&quot;</span><span class="Statement">.</span>s:magenta       <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi visual       gui=none  guifg=&quot;</span><span class="Statement">.</span>s:none          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:darkblue
+<span class="Statement">exec</span> <span class="Constant">&quot;hi visualnos    gui=none  guifg=&quot;</span><span class="Statement">.</span>s:none          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:darkgrey
+<span class="Statement">exec</span> <span class="Constant">&quot;hi warningmsg   gui=bold  guifg=&quot;</span><span class="Statement">.</span>s:red           <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+
+<span class="Statement">exec</span> <span class="Constant">&quot;hi comment      gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkred       <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi constant     gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkyellow    <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi error        gui=none  guifg=&quot;</span><span class="Statement">.</span>s:white         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:red
+<span class="Statement">exec</span> <span class="Constant">&quot;hi identifier   gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkcyan      <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi ignore       gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkgrey      <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi preproc      gui=none  guifg=&quot;</span><span class="Statement">.</span>s:blue          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi special      gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkgreen     <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi statement    gui=none  guifg=&quot;</span><span class="Statement">.</span>s:cyan          <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi type         gui=none  guifg=&quot;</span><span class="Statement">.</span>s:green         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+<span class="Statement">exec</span> <span class="Constant">&quot;hi todo         gui=none  guifg=&quot;</span><span class="Statement">.</span>s:black         <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:yellow
+<span class="Statement">exec</span> <span class="Constant">&quot;hi underlined   gui=none  guifg=&quot;</span><span class="Statement">.</span>s:darkmagenta   <span class="Constant">&quot;guibg=&quot;</span><span class="Statement">.</span>s:none
+
+<span class="Comment">&quot; Html groups use cterm attributes (which SUCK), so we change them here. The</span>
+<span class="Comment">&quot; GUI attributes are OK, and are unchanged. If you do not want your precious</span>
+<span class="Comment">&quot; html groups touched, set the variable</span><span class="Constant"> &quot;xterm16_NoHtmlColors&quot;</span><span class="Comment"> in your .vimrc</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; If html colors don't work correctly, set the variable</span><span class="Constant"> &quot;html_no_rendering&quot;</span>
+
+<span class="Statement">if</span> !<span class="Identifier">exists</span>(<span class="Constant">&quot;g:xterm16_NoHtmlColors&quot;</span>)
+    <span class="Statement">hi</span> htmlBold <span class="Type">cterm</span>=<span class="PreProc">none</span> <span class="Type">gui</span>=<span class="PreProc">bold</span> <span class="Type">ctermfg</span>=white <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlItalic <span class="Type">cterm</span>=<span class="PreProc">none</span> <span class="Type">gui</span>=<span class="PreProc">italic</span> <span class="Type">ctermfg</span>=yellow  <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlUnderline <span class="Type">cterm</span>=<span class="PreProc">none</span> <span class="Type">gui</span>=<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=darkmagenta <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlBoldItalic  <span class="Type">cterm</span>=<span class="PreProc">bold</span> <span class="Type">gui</span>=<span class="PreProc">bold</span>,<span class="PreProc">italic</span> <span class="Type">ctermfg</span>=white  <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlBoldUnderline <span class="Type">cterm</span>=<span class="PreProc">bold</span> <span class="Type">gui</span>=<span class="PreProc">bold</span>,<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=white  <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlUnderlineItalic <span class="Type">cterm</span>=<span class="PreProc">bold</span> <span class="Type">gui</span>=<span class="PreProc">underline</span>,<span class="PreProc">italic</span> <span class="Type">ctermfg</span>=white <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+    <span class="Statement">hi</span> htmlBoldUnderlineItalic <span class="Type">cterm</span>=<span class="PreProc">bold</span> <span class="Type">gui</span>=<span class="PreProc">bold</span>,<span class="PreProc">italic</span>,underline <span class="Type">ctermfg</span>=white <span class="Type">ctermbg</span>=<span class="PreProc">none</span>
+
+    <span class="Statement">hi</span>! <span class="Statement">link</span> htmlLink                   <span class="Type">preproc</span>
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; On a linux console, the darkblue (preproc) is unreadble so we remap it. To</span>
+<span class="Comment">&quot; disable this feature, set the variable</span><span class="Constant"> &quot;xterm16_NoRemap&quot;</span><span class="Comment"> in your .vimrc</span>
+<span class="Comment">&quot;</span>
+<span class="Comment">&quot; If this color gives you trouble on other terminals, and you want it changed</span>
+<span class="Comment">&quot; elsewhere too set the variable</span><span class="Constant"> &quot;xterm16_TermRegexp&quot;</span><span class="Comment"> to a regexp matching all</span>
+<span class="Comment">&quot; troublesome terminals.</span>
+
+<span class="Statement">if</span> !<span class="Identifier">exists</span>(<span class="Constant">&quot;g:xterm16_NoRemap&quot;</span>) <span class="Statement">&amp;&amp;</span> &amp;term <span class="Statement">=~#</span> (<span class="Identifier">exists</span>(<span class="Constant">&quot;g:xterm16_TermRegexp&quot;</span>) ? xterm16_TermRegexp : <span class="Constant">&quot;linux&quot;</span>)
+    <span class="Statement">hi</span>! <span class="Statement">link</span> <span class="Type">preproc</span>            <span class="Type">underlined</span>
+<span class="Statement">endif</span>
+</pre>
+</body>
+</html>

@@ -1,10 +1,17 @@
+8_color_terminals	xterm16.txt	/*8_color_terminals*
+GUI_colors	xterm16.txt	/*GUI_colors*
 gnome-terminal	xterm16.txt	/*gnome-terminal*
+html_colors	xterm16.txt	/*html_colors*
 keyboard_problems	xterm16.txt	/*keyboard_problems*
 konsole	xterm16.txt	/*konsole*
 terminal_colors	xterm16.txt	/*terminal_colors*
 xterm	xterm16.txt	/*xterm*
+xterm-16color	xterm16.txt	/*xterm-16color*
 xterm.ad	xterm16.txt	/*xterm.ad*
 xterm16.schema	xterm16.txt	/*xterm16.schema*
 xterm16.txt	xterm16.txt	/*xterm16.txt*
 xterm16.vim	xterm16.txt	/*xterm16.vim*
+xterm16_NoHtmlColors	xterm16.txt	/*xterm16_NoHtmlColors*
+xterm16_NoRemap	xterm16.txt	/*xterm16_NoRemap*
+xterm16_TermRegexp	xterm16.txt	/*xterm16_TermRegexp*
 xterm_colors.ad	xterm16.txt	/*xterm_colors.ad*
