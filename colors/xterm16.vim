@@ -1,7 +1,7 @@
 " xterm16 color scheme file
 " Maintainer:	Gautam Iyer <gautam@math.uchicago.edu>
 " Created:	Thu 16 Oct 2003 06:17:47 PM CDT
-" Modified:	Thu 06 Nov 2003 04:05:21 PM CST
+" Modified:	Fri 14 Nov 2003 01:33:15 PM CST
 "
 " Sets colors for a 16 color terminal. Can be used with 8 color terminals
 " provided VIM is configured to set the bold attribute for higher colors.
@@ -16,14 +16,22 @@ endif
 
 let colors_name = 'xterm16'
 
-" cterm colors
+" Set cterm colors. Some are set here even though they are equal to their
+" default settings because the GUI settings need to be modified
+
 hi normal	cterm=none	ctermfg=grey		ctermbg=black
 
 hi cursor	cterm=none	ctermfg=black		ctermbg=green
+hi diffadd	cterm=none	ctermfg=darkblue	ctermbg=darkgreen
+hi diffchange	cterm=none	ctermfg=black		ctermbg=darkyellow
+hi diffdelete	cterm=none	ctermfg=darkblue	ctermbg=none
+hi difftext	cterm=none	ctermfg=darkred		ctermbg=darkyellow
+hi foldcolumn	cterm=none	ctermfg=yellow		ctermbg=darkblue
+hi folded	cterm=none	ctermfg=yellow		ctermbg=darkblue
 hi incsearch	cterm=none	ctermfg=grey		ctermbg=darkblue
 hi moremsg	cterm=bold	ctermfg=green		ctermbg=none
 hi nontext	cterm=none	ctermfg=blue		ctermbg=none
-hi search	cterm=none	ctermfg=black		ctermbg=darkcyan
+hi search	cterm=none	ctermfg=darkblue	ctermbg=darkcyan
 hi specialkey	cterm=none	ctermfg=blue		ctermbg=none
 hi statusline	cterm=none	ctermfg=darkblue	ctermbg=grey
 hi statuslinenc	cterm=reverse	ctermfg=none		ctermbg=none
@@ -40,13 +48,13 @@ hi ignore	cterm=none	ctermfg=darkgrey	ctermbg=none
 hi preproc	cterm=none	ctermfg=blue		ctermbg=none
 hi special	cterm=none	ctermfg=darkgreen	ctermbg=none
 hi statement	cterm=none	ctermfg=cyan 		ctermbg=none
-hi type		cterm=none	ctermfg=green		ctermbg=none
 hi todo		cterm=none	ctermfg=black		ctermbg=yellow
+hi type		cterm=none	ctermfg=green		ctermbg=none
 hi underlined	cterm=none	ctermfg=darkmagenta	ctermbg=none
 
-" Define GUI colors to be exactly the same as xterm colors
-" If you want to change any one paticular color (or all), just define the
-" variable "g:colorname" before you load this color scheme. 
+" Define GUI colors to be exactly the same as xterm colors. To change any
+" paticular color, set the variable "g:colorname" to be that color (before you
+" load this color scheme.)
 
 let s:none		= 'NONE'
 let s:black		= exists("g:black") ? g:black :		    '#000000'
@@ -71,10 +79,16 @@ let s:white		= exists("g:white") ? g:white :		    '#FFFFFF'
 exec "hi normal	      gui=none	guifg=".s:grey	"guibg=".s:black
 
 exec "hi cursor	      gui=bold	guifg=".s:black		"guibg=".s:green
+exec "hi diffadd      gui=none	guifg=".s:darkblue	"guibg=".s:darkgreen
+exec "hi diffchange   gui=none	guifg=".s:black		"guibg=".s:darkyellow
+exec "hi diffdelete   gui=none	guifg=".s:darkblue	"guibg=".s:none
+exec "hi difftext     gui=none	guifg=".s:darkred	"guibg=".s:darkyellow
+exec "hi foldcolumn   gui=none	guifg=".s:yellow	"guibg=".s:darkblue
+exec "hi folded	      gui=none	guifg=".s:yellow	"guibg=".s:darkblue
 exec "hi incsearch    gui=none	guifg=".s:grey		"guibg=".s:darkblue
 exec "hi moremsg      gui=bold	guifg=".s:green		"guibg=".s:none
 exec "hi nontext      gui=none	guifg=".s:blue		"guibg=".s:none
-exec "hi search	      gui=none	guifg=".s:black		"guibg=".s:darkcyan
+exec "hi search	      gui=none	guifg=".s:darkblue	"guibg=".s:darkcyan
 exec "hi specialkey   gui=none	guifg=".s:blue		"guibg=".s:none
 exec "hi statusline   gui=none	guifg=".s:darkblue	"guibg=".s:grey
 exec "hi statuslinenc gui=none	guifg=".s:black		"guibg=".s:grey
@@ -91,8 +105,8 @@ exec "hi ignore       gui=none	guifg=".s:darkgrey	"guibg=".s:none
 exec "hi preproc      gui=none	guifg=".s:blue		"guibg=".s:none
 exec "hi special      gui=none	guifg=".s:darkgreen	"guibg=".s:none
 exec "hi statement    gui=none	guifg=".s:cyan 		"guibg=".s:none
-exec "hi type	      gui=none	guifg=".s:green		"guibg=".s:none
 exec "hi todo	      gui=none	guifg=".s:black		"guibg=".s:yellow
+exec "hi type	      gui=none	guifg=".s:green		"guibg=".s:none
 exec "hi underlined   gui=none	guifg=".s:darkmagenta	"guibg=".s:none
 
 " Html groups use cterm attributes (which SUCK), so we change them here. The

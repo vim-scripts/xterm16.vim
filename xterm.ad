@@ -1,9 +1,9 @@
 xterm.termName: xterm-16color
 
-xterm*cursorBlink:	on
-xterm*cursorOnTime:	400
-xterm*cursorOffTime:	250
-xterm*cursorColor:	#00CD00
+xterm.vt100.cursorBlink:	on
+xterm.vt100.cursorOnTime:	400
+xterm.vt100.cursorOffTime:	250
+xterm.vt100.cursorColor:	#00FF00
 
 xterm.vt100.font: 10x20
 xterm.vt100.font1: -adobe-courier-medium-r-normal-*-14-*-100-100-m-*-iso8859-1
@@ -42,3 +42,6 @@ xterm.vt100.color15:	#FFFFFF
 
 xterm.vt100.scrollbar.foreground:	#C0C0C0
 xterm.vt100.scrollbar.background:	#808080
+
+! Make double click select whole URL's
+xterm.vt100.charClass: 33:48,35:48,37-38:48,45-47:48,58:48,61:48,63-64:48,126:48

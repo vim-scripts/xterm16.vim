@@ -1,0 +1,25 @@
+rxvt.termName: xterm-16color
+
+rxvt*cursorColor:	#00CD00
+rxvt*cursorColor2:	#000000
+
+rxvt.background:	#000000
+rxvt.foreground:	#C0C0C0
+rxvt.colorBD:	#00CDCD
+rxvt.colorUL:	#00CD00
+rxvt.color0:	#000000
+rxvt.color1:	#CD0000
+rxvt.color2:	#00CD00
+rxvt.color3:	#CDCD00
+rxvt.color4:	#0000FF
+rxvt.color5:	#CD00CD
+rxvt.color6:	#00CDCD
+rxvt.color7:	#C0C0C0
+rxvt.color8:	#808080
+rxvt.color9:	#FF0000
+rxvt.color10:	#00FF00
+rxvt.color11:	#FFFF00
+rxvt.color12:	#0080FF
+rxvt.color13:	#FF00FF
+rxvt.color14:	#00FFFF
+rxvt.color15:	#FFFFFF
