@@ -1,0 +1,48 @@
+! If you want to use xterm-16color as your default termname, uncomment the
+! following line.
+! xterm.termName: xterm-16color
+
+! Set up a blinking cursor in bright green
+xterm.vt100.cursorBlink:	on
+xterm.vt100.cursorOnTime:	400
+xterm.vt100.cursorOffTime:	250
+xterm.vt100.cursorColor:	#00FF00
+
+! Cause bold/UL text to be displayed in color instead. The color of bold / UL
+! text can be found in the xterm_low.ad / xterm_high.ad files.
+xterm.vt100.colorBDMode:	true
+xterm.vt100.colorULMode:	true
+xterm.vt100.boldColors:		false
+
+! Select all the fonts
+xterm.vt100.font:  -misc-fixed-medium-r-normal-*-18-*-*-*-c-*-iso8859-1
+xterm.vt100.font1: -misc-fixed-medium-r-normal-*-10-*-*-*-c-*-iso8859-1
+xterm.vt100.font2: -misc-fixed-medium-r-normal-*-12-*-*-*-c-*-iso8859-1
+xterm.vt100.font3: -misc-fixed-medium-r-normal-*-13-*-*-*-c-*-iso8859-1
+xterm.vt100.font4: -misc-fixed-medium-r-normal-*-14-*-*-*-c-*-iso8859-1
+xterm.vt100.font5: -misc-fixed-medium-r-normal-*-15-*-*-*-c-*-iso8859-1
+xterm.vt100.font6: -misc-fixed-medium-r-normal-*-20-*-*-*-c-*-iso8859-1
+
+! We don't need scrollbars. The mouse wheel and <Shift-PgUp>, <Shift-PgDn> are
+! all we need.
+xterm.vt100.scrollBar:		false
+xterm.vt100.scrollKey:		true
+xterm.vt100.scrollTtyOutput:	false
+xterm.vt100.saveLines:		1000
+
+! If you want a scrollbar, comment out the scrollbar entry. If you want it on
+! the right, uncomment the following line.
+! xterm.vt100.RightScrollBar:	true
+
+! Scrollbar colors
+xterm.vt100.scrollbar.foreground:	#808080
+xterm.vt100.scrollbar.background:	#404040
+
+! Behaviour of backspace. Comment this if it doesnt' work on your system
+xterm.vt100.backarrowKey:	false
+
+! <alt-key> sends <esc>key (usefull in Mutt)
+xterm.vt100.eightBitInput:	false
+
+! Make double click select whole URL's
+xterm.vt100.charClass: 33:48,35:48,37-38:48,45-47:48,58:48,61:48,63-64:48,126:48

@@ -1,27 +1,73 @@
-*xterm16.txt* 16 color scheme for Vim
+*xterm16.txt* A 16 color adjustable contrast color scheme for GUI/Terminal.
 
-Description: ~
-    Color scheme for a 16 color terminal. Looks best if you use xterm with
-    your terminal set to |xterm-16color| (that way you get to use 24 colors!).
-    Works just fine with other 8 or 16 color terminals. Defines GUI colors to
-    be identical to the terminal colors.
+DESCRIPTION                                                      *xterm16.vim*
+    A 16-color color scheme for Vim, designed for readability. The main
+    features are:
+    
+	- Two color maps. A 'standard' colormap (8 standard colors, and 8
+	  brighter ones, for terminals), and a 'soft' colormap (for GUI or
+	  Terminal). The soft colormap designed with colors of similar
+	  intensities to reduce strain on your eyes during long / late coding
+	  sessions :-)
 
-Installation: ~
-								 *xterm16.vim*
+	- Adjustable brightness / contrast. Lets the user easily adjust the
+	  brightness and contrast settings. Extremely useful (for instance)
+	  when there is a glare on your monitor, or if you're working with dim
+	  lighting late at night :)
+
+	- Terminal and GUI support. If you use |xterm| (compiled with 256
+	  colors), then the colors on your terminal will be almost identical
+	  to your GUI colors. On any other terminal emulator, you will have to
+	  modify the palette (as described here) to obtain the same colors as
+	  on your GUI Vim. Since this color scheme only uses 16 colors, this
+	  is possible on most terminals (rxvt / konsole / gnome-terminal etc).
+
+	- LCD / CRT Monitor support. The color response of LCD and CRT
+	  monitors is pretty different. This color scheme has an option to
+	  adjust colors on CRT monitors to give a similar appearance.
+
+	- Customizable colors. If you find one color (like blue for instance)
+	  unreadable (or just aesthetically unpleasing), you can change it
+	  easily. When adjusting the brightness, your custom colors will be
+	  suitably adjusted too!
+
+	- Customizable highlighting groups. If you don't like the highlighting
+	  of any particular group, you can change it to suit your needs. This
+	  is useful for instance if you want the cursor to be brighter than
+	  everything else / etc.
+
+INSTALLATION                                            *xterm16-installation*
     For local installation, put the |xterm16.vim| file in your ~/.vim/colors
-    directory. To install globally put it in $VIMRUNTIME/colors. Of course,
-    you might want to add "colo xterm16" somewhere in your .vimrc ...
+    directory. To install globally put it in $VIMRUNTIME/colors. Finally add
+    the following lines to your {.vimrc}: >
 
-Options: ~
-    |GUI_colors|	   : Customise some GUI colors (if you don't like mine)
-    |xterm16_NoHtmlColors| : Disable remapping of htmlcolors.
+	" Select your brightness level / colormap
+	let xterm16_colormap	= 'soft'	" 'standard' is default
+	let xterm16_brightness	= '123'		" 'high' is default
+	colo xterm16
+
+OPTIONS                                                      *xterm16-options*
+    |xterm16_colormap|	   : Select the colormap (standard / soft)
+    |xterm16_brightness|   : Set the brightness / contrast
+    |:Brightness|	   : Adjust the brightness / contrast and or colormap
+    |xterm16_CRTColors|	   : Setup defaults for CRT monitors.
+    |xterm16_custom_color| : Customize some (or all) colors.
+    |xterm16_custom_group| : Customize some (or all) highlighting groups.
+    |xterm16_NoHtmlColors| : Disable remapping of html colors.
     |xterm16_NoRemap|	   : Disable dark blue remapping on 8 color terminals
-    |xterm16_TermRegexp|   : Regexp of terminals where dark blue is unreadable
+    |xterm16_TermRegexp|   : Regexp of terminals where darkblue is unreadable
 
-Changing colors on terminals: ~
-    The default colors on most terminals are often unreadable (especially dark
-    blue). For help on customising colors on your favourite terminal, look
-    under the appropriate section below:
+CHANGING COLORS ON TERMINALS                                 *terminal_colors*
+    If you use |xterm| compiled with 256 colors, then you don't have to adjust
+    anything. Otherwise, if you want to change the colors on your favorite
+    terminal emulator to match those of this color scheme (or because you find
+    that the default colors suck / are unreadable), then do the following:
+
+    First load this color scheme in gvim, and adjust the colormap / brightness
+    / contrast. Now the global variable |g:xterm16_palette| contains your
+    current palette. Depending on the terminal emulator you're using, follow
+    the directions in the appropriate section below. NOTE: You can only use
+    the standard colormap if your terminal does not support 256 colors.
 
 	|ctheme|
 	|gnome-terminal|
@@ -30,7 +76,160 @@ Changing colors on terminals: ~
 	|xterm|
 
 ------------------------------------------------------------------------------
-					*xterm16_NoRemap* *xterm16_TermRegexp*
+ADJUSTING THE BRIGHTNESS OR CONTRAST                        *xterm16_brightness*
+
+    The brightness and contrast are controlled by the global variable
+    |xterm16_brightness|. This color scheme uses three different color
+    intensities: {low}, {medium} and {high}. These intensities are used
+    differently in each of the colormaps. See the |xterm16_colormap| section
+    for an explanation of how these intensities are used.
+
+    The brightness / contrast can be controlled by changing these intensities.
+    You can do this by setting the global variable |xterm16_brightness|, using
+    any of the following formats: >
+
+	let xterm16_brightness = '#llmmhh'
+	let xterm16_brightness = 'lmh'
+	let xterm16_brightness = 'low|high'
+
+<   In the first format, 'll' 'mm' and 'hh' are the intensities (2 digit hex)
+    of the {low}, {medium} and {high} levels respectively. In the second
+    format 'l', 'm' and 'h' are numbers from 0 - 5 specifying the respective
+    intensities. (This corresponds to the levels in the 6x6x6 color cube used
+    by a 256 color xterm). The final format selects either a 'low' brightness
+    (equivalent to '123' or '#5f87af') or a 'high' brightness (default)
+    [equivalent to '245' or '#87d7ff'].
+
+								 *:Brightness*
+    You can change the brightness (and optionally the colormap) by using the
+    command >
+
+	:Brightness <brightness> [colormap]
+
+<   This is convenient if you want to try out / temporarily change the
+    brightness or colormap. Once you find a brightness / colormap you like,
+    set the global variables |xterm16_brightness| and |xterm16_colormap| in
+    your {.vimrc}.
+
+CHANGING THE COLORMAP                                       *xterm16_colormap*
+
+    This color scheme comes with two different color maps: 'standard'
+    (default) and 'soft'. You can select them by setting the global variable
+    |xterm16_colormap|.
+
+    The 'standard' colormap uses 8 standard colors (of {medium} intensity),
+    and the same colors of {high} intensity. Dark grey is of {low} intensity.
+
+    The 'soft' colormap is designed so that all foreground colors appear to be
+    of similar intensity (to reduce the strain on your eyes). We do this as
+    follows: The {low} intensity is used for dark background colors. Some
+    colors (like green for instance) appear a lot brighter than other colors
+    (like blue). So we use the {medium} intensity for greenish colors and the
+    {high} intensity for blueish colors. See |xterm16_brightness| for how to
+    adjust these intensities to your taste.
+
+    NOTE: By default this color scheme is designed for LCD monitors. If you
+    have a CRT monitor, see |xterm16_CRTColors| for how to adjust the colors
+    to suit CRT monitors.
+
+    NOTE: On terminals WITHOUT 256 colors, you can only use the 'standard'
+    colormap. The reason for this is because the 'soft' color map has 5
+    unreadable dark colors (used as backgrounds). If you change your terminal
+    palette to that of the 'soft' colormap, then you'll have trouble reading
+    text in non-Vim applications. If you REALLY want the 'soft' colormap on a
+    terminal, use compile xterm with 256 colors. Or modify the source of this
+    color scheme :)
+
+							     *xterm16_example*
+    NOTE: For example, the following will produce exactly the same colors as
+    the original version of xterm16. (If you set the variable
+    |xterm16_CRTColors|, and do NOT set the variable |xterm16_brightness|,
+    then these will be automatically the default): >
+
+	let g:xterm16_colormap		= 'standard'
+	let g:xterm16_brightness	= '#80cdff'
+	let g:xterm16_darkblue		= 'h000050'
+	let g:xterm16_blue		= 'h002550'
+	let g:xterm16_grey		= 'm474747'
+
+<   NOTE: This is done by default if you set the variable |xterm16_CRTColors|,
+    and use a terminal with less than 256 colors.
+
+CRT MONITORS                                               *xterm16_CRTColors*
+
+    By default the colors in this color scheme are designed for LCD monitors.
+    If you have a CRT monitor, set the vim variable |g:xterm16_CRTColors| in
+    your .vimrc. This will adjust the colors to suit CRT monitors. With an
+    unspecified brightness and 'standard' colormap, this will produce exactly
+    the same colors as the original version of xterm16. If the colors still
+    look unreadable and you want to change them, read the section on
+    |xterm16_custom_color|.
+
+    NOTE: Setting this variable will override some (maybe all) of your
+    customized colors. See the note at the end of |xterm16_custom_color|.
+
+CUSTOMIZING COLORS                                      *xterm16_custom_color*
+   
+    Different monitors show colors differently. All colors of this color
+    scheme are readable on my monitor. However if you have trouble with some
+    colors, you can change them by setting the variable |xterm16_colorname|.
+    The color names used are different on each colormap. The 'standard'
+    colormap uses the colors: >
+
+	black, darkred, darkgreen, darkyellow, darkblue, darkmagenta,
+	darkcyan, grey, darkgrey, red, green, yellow, blue, magenta, cyan,
+	white.
+
+<   The 'soft' colormap uses the colors: >
+
+	black darkred darkyellow darkcyan darkblue darkgrey red lightbrown
+	yellow green bluegreen skyblue magenta cyan purple white
+    
+<   The format of this variable is one of >
+
+	let xterm16_blue = '#rrggbb'
+	let xterm16_blue = 'nnn'
+	let xterm16_blue = 'Ldddddd'
+
+<   The first format specifies the red / green / blue intensities in two digit
+    hex. The second format specifies the red / green / blue intensities as a
+    level between 0-5 number. (This is like specifying the color in a 6x6x6
+    color cube, as used by a 256 color xterm).
+    
+    Finally the most useful format is the 'Lnnn'. Here 'L' is the intensity
+    level (either 'l', 'm' or 'h' for low medium or high respectively). The
+    first two digits 'dd' are HALF the percentage intensity of the red
+    intensity. The second two, green and last two blue. So for instance
+    'm005035' corresponds to a color with no red component, a green component
+    equal to the 'medium' intensity level, and a blue component that is 70% of
+    the 'medium' intensity level.
+
+    The advantage is that when you change the brightness / contrast, this
+    color will change accordingly. See |xterm16_example| for an example.
+
+    NOTE: If you set the variable |xterm16_CRTColors| then some of your
+    default colors will be overridden. If you want to use your custom colors,
+    and the CRT settings, first set |xterm16_CRTColors| and load this color
+    scheme. The global variables 'xterm16_colorname' will be set for all
+    modified colors. Now unset |xterm16_CRTColors|, copy these colors into
+    your vimrc, and modify any other color you like as desired.
+
+CUSTOMIZING HIGHLIGHTING GROUPS                         *xterm16_custom_group*
+
+    If you don't like a few highlighting groups, you can change them by
+    setting the variables *xterm16fg_GroupName* *xterm16bg_GroupName* and / or
+    *xterm16attr_GroupName* . These variables control the foreground color,
+    background color and GUI/cterm attributes of {GroupName} respectively.
+    {GroupName} is the name of the group whose highlighting you want to
+    change. For a list of group names see |highlight-groups| and |group-name|.
+
+    The format of these variables is the same as the format for colors. See
+    |xterm16_custom_color| above. As an example: >
+
+	let xterm16bg_Cursor = '#00ff00' " Make cursor bright green
+
+UNREADABLE CONSOLE COLORS               *xterm16_NoRemap* *xterm16_TermRegexp*
+
     On a Linux console (and some other 8 color terminals), the dark blue
     (PreProc) is unreadable so we remap it. To disable this feature, set the
     variable |xterm16_NoRemap| in your {.vimrc}
@@ -39,15 +238,11 @@ Changing colors on terminals: ~
     changed elsewhere too set the variable |xterm16_TermRegexp| to a regexp
     matching all troublesome terminals.
 
-								  *GUI_colors*
-    If you want to change any one particular color (or all) on the GUI, just
-    define the variable {g:colorname} before you load this color scheme. The
-    list of colors are >
-	black, darkred, darkgreen, darkyellow, darkblue, darkmagenta,
-	darkcyan, grey, darkgrey, red, green, yellow, blue, magenta, cyan,
-	white
+    NOTE: This is only true in the 'standard' colormap. The 'soft' colormap
+    does not use dark blue as a foreground, and hence no remapping is done.
 
-<							*xterm16_NoHtmlColors*
+HTML HIGHLIGHTING GROUPS                                *xterm16_NoHtmlColors*
+
     Html groups use cterm attributes (which SUCK), so we change them here. The
     GUI attributes are OK, and are unchanged. If you do not want your precious
     html groups touched, set the variable |xterm16_NoHtmlColors| in your
@@ -55,77 +250,108 @@ Changing colors on terminals: ~
 
     If html colors don't work correctly, set the variable |html_no_rendering|
 ------------------------------------------------------------------------------
-								       *xterm*
-    |xterm| is my favourite terminal emulator. It is the only one where you
-    can have a blinking cursor with the correct color! Additionally if you se
-    your terminal name to *xterm-16color* you get 24 colors (16 normal colors,
-    and 8 bold-ed ones). If you run into trouble with backspace / shifted
-    cursor keys, see the section on |keyboard_problems|.
 
-    The file *xterm_colors.ad* contains the application resources required to
-    change the default colors in xterm (mainly to make the dark blue, and red
-    colors more readable). To change the default colors on |xterm| either
-    merge the contents of this file with your {.Xresources} file, or add the
-    following line to your {.Xinitrc} or {.xsession}: >
+Terminal Colors ~
+    The rest of this file is devoted to helping you change the colors on your
+    favorite terminal emulator. You may want to read the paragraph under
+    |terminal_colors| first.
 
-	xrdb -merge xterm_colors.ad
-<
-    In addition to changing the default xterm colors, the file *xterm.ad* also
-    changes a few other default options (including scrollbar appearance, and
-    setting the default terminal name to |xterm-16color|, and setting double
-    clicks to select whole URLs by default). If you like these options, use
-    this file instead of |xterm_colors.ad|.
+							     *xterm16_palette*
+    The global variable |xterm16_palette| contains the 16 color palette
+    currently used by the color scheme. This is mainly so that you can easily
+    obtain the palette, and use it to change the colors on your favorite
+    terminal emulator.
+------------------------------------------------------------------------------
+							    *xterm.ad* *xterm*
+    |xterm| is my favorite terminal emulator. It is the only one I know where
+    you can have a blinking cursor with the correct color! Also, if compiled
+    with 256 colors, you can adjust the brightness / contrast / colormap
+    without troubling yourself with color palettes.
 
-							*keyboard_problems*
-    If using the |xterm-16color| terminal name gives you trouble with shifted
-    cursor keys, then add the following lines to your {.vimrc}: (type the 
-    as a literal escape!) >
+    The file |xterm.ad| contains the application resources required to change
+    the default colors in xterm to the 'low' brightness 'standard' colormap
+    setting. If you change the colormap / brightness, get the palette from the
+    variable |xterm16_palette|, and modify the file appropriately.
 
-	if($TERM == 'xterm-16color')
-	    set <S-Up>=[1;2A
-	    set <S-Down>=[1;2B
-	    set <S-Left>=[1;2D
-	    set <S-Right>=[1;2C
-	    set <C-Left>=[1;5D
-	    set <C-Right>=[1;5C
-	endif
-<
-    If your system is not configured properly, and you have trouble with
-    backspace, then add the following line to your .cshrc / .bash_profile: >
+    To change the default colors on |xterm| either merge it with your
+    {.Xresources} file, or add the following line to your {.xinitrc} or
+    {.xsession}: >
 
-	stty dec
-<
-    Alternately to avoid these keyboard problems altogether, you can set your
-    terminal name to |xterm| and add the following lines to your {.vimrc} to
-    still obtain 24 colors (again remember to type  as a literal escape.) >
+	xrdb -merge path/to/xterm.ad
 
-	if &term =~ "xterm"
-	   set t_Co=16
-	   set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-	   set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-	endif
+<   The file *xterm_extra.ad* changes a few other default options (including
+    scrollbar appearance, fonts, and setting double clicks to select whole
+    URLs by default). If you like these options, merge it's contents with the
+    color file above.
+
+								*xterm16color*
+    If your xterm is not compiled with 256 colors and recompiling is
+    IMPOSSIBLE, then you should not settle for less than 16 colors. To get 16
+    colors on your xterm, try what is suggested in the vim help under
+    |xfree-xterm|. I recommend against setting the term variable to
+    {xterm-16color}, because the default termcap / terminfo files seem to be
+    messed up in most linux distributions.
+
+    NOTE: If for some perverted reason you HAVE 256 colors, but WANT only 16
+    colors, add the following to your {.vimrc}: >
+
+	au VimEnter *
+        	\ if &term =~ 'xterm'		|
+        	\ 	set t_Co=16		|
+        	\ endif
 
 ------------------------------------------------------------------------------
-									*rxvt*
-    To change the default colors on rxvt, use the application resources
-    provided in the file {rxvt.ad}. See the section on |xterm_colors.ad| for
-    how to use this file. Rxvt accepts the terminal |xterm-16color| and
-    {rxvt-16color} and you can use 24 colors! Alternately you can set the
-    terminal escape sequences. NOTE: xresources must be enabled at compile
-    time for this to work in rxvt.
+							      *rxvt.ad* *rxvt*
+    The file |rxvt.ad| contains the application resources required to change
+    the default colors in rxvt to the 'high' brightness 'standard' colormap
+    setting. If you change the colormap / brightness, get the palette from the
+    variable |xterm16_palette|, and modify the file appropriately.
+
+    To change the default colors in rxvt, either put this file in your
+    ~/.Xresources or ~/.Xdefaults. Rxvt doesn't read from the xresources, so
+    using xrdb to merge them in won't work!
+
+    NOTE: xresources must be enabled at compile time for this to work in rxvt.
 
 ------------------------------------------------------------------------------
 								      *ctheme*
+    |ctheme| can be used to change the colors on your linux console. Find more
+    information about it at >
+
+	http://www.sourceforge.net/projects/ctheme/
+
+<   The file *xterm16.ct* contains the colors of this colorscheme with
+    'standard' colormap, default brightness and CRTColors. If you use a
+    different colormap / brightness, get the palette from the variable
+    |xterm16_palette|, and modify the file appropriately.
+    
     If necessary, change the first line of *xterm16.ct* to point to the
     correct location of ctheme, then run it with your ctheme. Thanks to
-    Juhapekka Tolvanen <juhtolv@cc.jyu.fi> for providing this theme, and
-    informing me of the existence of ctheme!
+    Juhapekka Tolvanen <juhtolv@iki.fi> (http://iki.fi/juhtolv) for providing
+    this theme, and informing me of the existence of ctheme!
 
 ------------------------------------------------------------------------------
 								     *konsole*
-    To change the default colors on Konsole, add the *xterm16.schema* file to
-    your .kde/share/apps/konsole directory. Select the "Xterm 16 Colors"
-    schema from the schema menu.
+    The file *xterm16.schema* contains the colors of this colorscheme with
+    'standard' colormap, default brightness and CRTColors. If you use a
+    different colormap / brightness, get the palette from the variable
+    |xterm16_palette|, and modify the file appropriately. You'll need to
+    convert the palette from to decimal. The following few lines might help: >
+
+	" Brightness 134 (high), colormap standard
+	let palette = '#000000 #af0000 #00af00 #afaf00 #0000af #af00af #00afaf #9a9a9a #5f5f5f #d70000 #00d700 #d7d700 #0000d7 #d700d7 #00d7d7 #d7d7d7'
+
+	let i = 0
+	while i < 16
+	    echo 'Color' i '0x'.strpart(palette,i*8+1,2)+0 '	'
+		    \ '0x'.strpart(palette,i*8+3,2)+0 '	'
+		    \ '0x'.strpart(palette,i*8+5,2)+0
+	    let i = i + 1
+	endwhile
+
+<   To change the default colors on Konsole, add the file *xterm16.schema* to
+    ~/.kde/share/apps/konsole. Select the "Xterm 16 Colors" schema from the
+    schema menu.
 
 ------------------------------------------------------------------------------
 							      *gnome-terminal*
@@ -133,13 +359,14 @@ Changing colors on terminals: ~
     {gconf-editor} and select the apps - gnome-terminal - profiles - Default
     menu, and change the palette option to the string (all in one line!) >
 
-    #000000:#CD0000:#00CD00:#CDCD00:#0000FF:#CD00CD:#00CDCD:#C0C0C0:#808080:#FF0000:#00FF00:#FFFF00:#0080FF:#FF00FF:#00FFFF:#FFFFFF
-<
-    Note: In both |konsole| and |gnome-terminal| vim will only use 16 colors.
-    The bolded colors will only be the bright colors. |xterm| and |rxvt|
-    however will use bolded colors correctly provided you set the terminal to
-    |xterm-16color| or set the terminal escape sequences correctly.
+	#000000:#af0000:#00af00:#afaf00:#0000af:#af00af:#00afaf:#9a9a9a:#5f5f5f:#d70000:#00d700:#d7d700:#0000d7:#d700d7:#00d7d7:#d7d7d7
+
+<   If you changed the brightness / colormap, you might want to replace the
+    above line with your current colormap (obtained from the variable
+    |xterm16_palette|).
 
 ----------------------------------------------------------------------------
 >
+ Maintainor	: Gautam Iyer <gautamATmathDOTuchicagoDOTedu>
+ Modified	: Sat 13 Nov 2004 06:13:52 PM CST
  vim: ft=help:tw=78:iskeyword=!-~,^*,^|,^":ai:
