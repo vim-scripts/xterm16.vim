@@ -1,0 +1,17 @@
+# Changelog for xterm16.vim
+xterm16-2.2
+    Thu May 26 09:47:36 2005; Gautam Iyer <gautam@math.uchicago.edu>
+    - Added mrxvt and rxvt 256 color support (options xterm16_termtype and
+      xterm16_ccube).
+
+    - Added the program rgb_level to get the intensities of a uniform rgbi
+      color cube and a patch to set the mrxvt color cube.
+
+    - Allowed xterm16bg_Group & xterm16fg_Group to contain color names (from
+      this colorscheme). Thus setting xterm16bg_Normal='none' gives
+      transparency in mrxvt :)
+
+    - A trivial perl script to generate a custom terminal 6x6x6 color cube,
+      the Xresources file from xterm16_palette, and CSS files for web hosting.
+
+    - Few minor color modifications to the soft colormap.

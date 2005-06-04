@@ -12,7 +12,7 @@ title Xterm16
 #      | red grn blu  | |
 #      V V--color--V  V V
 color  0 205 205 205  0 0 # 0 - Foreground Color
-color  1   0   0   0  1 0 # 1 - Background Color
+color  1   0   0   0  0 0 # 1 - Background Color
 color  2   0   0   0  0 0 # 2 - Color 0 (black)
 color  3 205   0   0  0 0 # 3 - Color 1 (red)
 color  4   0 205   0  0 0 # 4 - Color 2 (green)

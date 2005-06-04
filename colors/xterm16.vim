@@ -1,7 +1,7 @@
-" xterm16 color scheme file
+" xterm16-v2.4: Vim color scheme file
 " Maintainer:	Gautam Iyer <gautam@math.uchicago.edu>
 " Created:	Thu 16 Oct 2003 06:17:47 PM CDT
-" Modified:	Sat 13 Nov 2004 05:58:53 PM CST
+" Modified:	Sat 04 Jun 2005 10:43:51 AM CDT
 "
 " Sets colors for a 16 color terminal. Can be used with 8 color terminals
 " provided VIM is configured to set the bold attribute for higher colors.
@@ -57,20 +57,24 @@ endfunction
 
 " {{{2 guilevel(n) : Get the gui intensity of a given cterm intensity
 function s:guilevel( n)
-    " 0 95 135 175 215 255
-    return a:n == 0 ? 0 : 95 + 40 * (a:n - 1)
+    return '0x'.s:ccube[2*a:n].s:ccube[2*a:n + 1]
 endfunction
 
-" {{{2 trmlevel(n) : Get the cterm intensity of a given gui intensity
-function s:trmlevel( n)
-    " 0 -- [0, 48], 1 -- [49, 115], 2 -- [116, 155], 3 -- [156, 195], 4 -- [196, 235], 5 -- [236, 255]
-    if a:n <= 48
-	return 0
-    elseif a:n <= 115
-	return 1
-    else
-	return a:n > 255 ?  5 : (a:n - 116) / 40 + 2
-    endif
+" {{{2 ctermlevel(n) : Get the cterm intensity of a given gui intensity
+function s:ctermlevel( n)
+    " Xterm color cube intensities: 00, 5f, 87, af, d7, ff
+    " Rxvt color cube: 00, 2a, 55, 7f, aa, d4
+
+    " cinterval should have the terminal intervals.
+    let l:terml = 0
+    while l:terml < 5
+	if a:n < '0x'.s:cinterval[2 * l:terml].s:cinterval[2 * l:terml + 1]
+	    return l:terml
+	endif
+
+	let l:terml = l:terml + 1
+    endwhile
+    return 5
 endfunction
 
 " {{{2 guicolor( r, g, b): Return the gui color with intensities r,g,b
@@ -78,102 +82,96 @@ function s:guicolor( r, g, b)
     return '#' . s:tohex(a:r) . s:tohex(a:g) . s:tohex(a:b)
 endfunction
 
-" {{{2 trmcolor( r, g, b): Return the xterm-256 color with intensities r, g, b
-function s:trmcolor( r, g, b)
+" {{{2 ctermcolor( r, g, b): Return the xterm-256 color with intensities r, g, b
+function s:ctermcolor( r, g, b)
     if a:r == a:g && a:r == a:b
-	" Grey scale ramp
+	" Use the greyscale ramp. The greyscale ramp starts from color 232
+	" with grey 8, and procedes in increments of 10 upto grey 238 (0xee)
 	if a:r <= 4
 	    return 16
 	elseif a:r <= 243
 	    return (a:r - 4) / 10 + 232
 	else
-	    return a:r > 247 ? 231 : 255
+	    " Let's check if the last color in ccube is large enough.
+	    " return (s:termtype == 'xterm' && a:r > 247) ? 231 : 255
+	    let l:l5 = s:guilevel(5)
+	    return ( l:l5 > 0xee && a:r > (l:l5 + 0xee)/2 ) ? 231 : 255
 	endif
     else
-	return s:trmlevel(a:r) * 36 + s:trmlevel(a:g) * 6 + s:trmlevel(a:b) + 16
+	" Use the rgb cube.
+	return s:ctermlevel(a:r) * 36 + s:ctermlevel(a:g) * 6 + s:ctermlevel(a:b) + 16
     endif
 endfunction
 
-" {{{2 setcolor( name, r, g, b): Set the script variables gui_name and trm_name
+" {{{2 setcolor( name, r, g, b): Set the script variables gui_name and cterm_name
 function s:setcolor( name, r, g, b)
     if exists('g:xterm16_'.a:name)
 	" Use user-defined color settings (from global variable)
 	call s:extractRGB( g:xterm16_{a:name})
 
 	let s:gui_{a:name} = s:guicolor( s:c1, s:c2, s:c3)
-	let s:trm_{a:name} = s:trmcolor( s:c1, s:c2, s:c3)
+	let s:cterm_{a:name} = s:ctermcolor( s:c1, s:c2, s:c3)
     else
 	" Set the GUI / cterm color from r,g,b
 	let s:gui_{a:name} = s:guicolor( a:r, a:g, a:b)
-	let s:trm_{a:name} = ( &t_Co == 256 ? s:trmcolor( a:r, a:g, a:b) : a:name)
+	let s:cterm_{a:name} = ( &t_Co == 256 ? s:ctermcolor( a:r, a:g, a:b) : a:name)
     endif
 
     " Add the color to palette
     let g:xterm16_palette = g:xterm16_palette . "\n" . s:gui_{a:name} . ' ' . a:name
 endfunction
 
-" {{{2 hi( group, attr, fg, bg): Set the gui/cterm highlighting groups
-" group - groupname. attr - attributes. fg/bg color name.
-function s:hi( group, attr, fg, bg, ...)
-    if has('gui_running')
-	if exists('g:xterm16fg_' . a:group)
-	    call s:extractRGB( g:xterm16fg_{a:group} )
-	    let l:fg = s:guicolor( s:c1, s:c2, s:c3)
-	else
-	    let l:fg = s:gui_{( a:0 >= 2 ) ? a:2 : a:fg}
-	endif
+" {{{2 getcolor( group, globalvar, colorname): if globvar exists, returns that
+" color. if not returns the color in cname
+function s:getcolor( globvar, cname)
+    " hopefully someone set ctype before getting here. ctype should either be
+    " "gui" or "cterm"
 
-	if exists('g:xterm16bg_' . a:group)
-	    call s:extractRGB( g:xterm16bg_{a:group} )
-	    let l:bg = s:guicolor( s:c1, s:c2, s:c3)
+    if exists( a:globvar)
+	if exists( 's:'.s:ctype.'_'.{a:globvar})
+	    return s:{s:ctype}_{{a:globvar}}
 	else
-	    let l:bg = s:gui_{( a:0 == 3 ) ? a:3 : a:bg}
+	    call s:extractRGB( {a:globvar})
+	    return s:{s:ctype}color( s:c1, s:c2, s:c3)
 	endif
-
-	if exists('g:xterm16attr_' . a:group)
-	    let l:attr = g:xterm16attr_{a:group}
-	else
-	    let l:attr = (a:0 >= 1) ? a:1 : a:attr
-	endif
-
-	exec 'hi' a:group 'gui='.l:attr 'guifg='.l:fg 'guibg='.l:bg
-    elseif &t_Co == 256
-	if exists('g:xterm16fg_' . a:group)
-	    call s:extractRGB( g:xterm16fg_{a:group} )
-	    let l:fg = s:trmcolor( s:c1, s:c2, s:c3)
-	else
-	    let l:fg = s:trm_{a:fg}
-	endif
-
-	if exists('g:xterm16bg_' . a:group)
-	    call s:extractRGB( g:xterm16bg_{a:group} )
-	    let l:bg = s:trmcolor( s:c1, s:c2, s:c3)
-	else
-	    let l:bg = s:trm_{a:bg}
-	endif
-
-	if exists('g:xterm16attr_' . a:group)
-	    let l:attr = g:xterm16attr_{a:group}
-	else
-	    let l:attr = a:attr
-	endif
-
-	exec 'hi' a:group 'cterm='.l:attr 'ctermfg='.l:fg 'ctermbg='.l:bg
     else
+	return s:{s:ctype}_{a:cname}
+    endif
+endfunction
+
+" {{{2 hi( group, attr, fg, bg): Set the gui/cterm highlighting groups
+" group - groupname. attr - attributes. fg/bg color name. optionally the fifth
+" argument onwards provides colors / attributes for the gui to override the
+" term colors
+function s:hi( group, attr, fg, bg, ...)
+    if has('gui_running') || &t_Co == 256
+	" For gui's and 256 color terminals
+	let l:fg = s:getcolor( 'g:xterm16fg_'.a:group, (a:0 >= 2 && has('gui_running')) ? a:2 : a:fg)
+	let l:bg = s:getcolor( 'g:xterm16bg_'.a:group, (a:0 == 3 && has('gui_running')) ? a:3 : a:bg)
+
+	if exists('g:xterm16attr_' . a:group)
+	    let l:attr = g:xterm16attr_{a:group}
+	else
+	    let l:attr = (a:0 >= 1 && has('gui_running')) ? a:1 : a:attr
+	endif
+
+	exec 'hi' a:group s:ctype.'='.l:attr s:ctype.'fg='.l:fg s:ctype.'bg='.l:bg
+    else
+	" for consoles / 16 color junkies
 	exec 'hi' a:group 'cterm='.a:attr 'ctermfg='.a:fg 'ctermbg='.a:bg
     endif
 endfunction
 
 " {{{2 set_brightness( default): Set s:brightness based on default
 function s:set_brightness( default)
-    if !exists('g:xterm16_brightness')
-	let s:brightness = a:default
-    elseif  g:xterm16_brightness == 'high'
-	let s:brightness = '134'
-    elseif g:xterm16_brightness == 'low'
-	let s:brightness = '123'
-    else
-	let s:brightness = g:xterm16_brightness
+    let s:brightness = ( exists('g:xterm16_brightness') && g:xterm16_brightness != 'default') ?
+		\ g:xterm16_brightness : a:default
+    if  s:brightness == 'high'
+	let s:brightness = '#afd7ff'	" 345
+    elseif  s:brightness == 'med'
+	let s:brightness = '#87afd7'	" 234
+    elseif s:brightness == 'low'
+	let s:brightness = '#5f87af'	" 123
     endif
 endfunction
 
@@ -201,6 +199,49 @@ endfunction
 
 try
     " {{{1 Setup defaults
+    " {{{2 set ctype (to cterm / gui) to be the color type
+    let s:ctype = has('gui_running') ? 'gui' : 'cterm'
+    " {{{2 Obtain intensity levels of the 6 terminal colors in s:ccube
+    " The 2ith and 2i+1th charecters in ccube are the hex digits of the
+    " intensity of the ith (0-5) term level. xterm, rxvt and mrxvt set up the
+    " default color cube differently, so we have to consider them seperately.
+    if exists('g:xterm16_ccube')
+	let s:ccube = g:xterm16_ccube
+    elseif (exists('g:xterm16_termtype') && g:xterm16_termtype == 'mrxvt') ||
+		\ ( !exists('g:xterm16_termtype') && $MRXVT_TABTITLE != "")
+	" no color cube given. let's guess based on the term type
+	" let s:termtype = 'mrxvt'
+	if exists('g:xterm16_CRTColors')
+	    " mrxvt uses a uniform rgbi color cube. it looks different on CRT
+	    " and LCD monitors.
+	    let s:ccube = '0083adcce7ff'
+	else
+	    let s:ccube = '0081abc9e5fc'
+	endif
+    elseif ( exists('g:xterm16_termtype') && g:xterm16_termtype == 'rxvt') ||
+		\ ( !exists('g:xterm16_termtype') && &term =~ '^.\?rxvt*')
+	" let s:termtype = 'rxvt'
+	let s:ccube = "002a557faad4"
+    else
+	" default to xterm if nothing else is specified.
+	" let s:termtype = 'xterm'
+	let s:ccube ="005f87afd7ff"
+    endif
+
+    " s:cinterval will be the intervals of intensities which get mapped to
+    " term color i. i.e. colors between 0 -- cinterval(0) have level 0.
+    " between cinterval(0) -- cinterval(1) have level 1, etc. max level is 5,
+    " so anything higher than cinterval(4) has level 5.
+    let s:cinterval = ""
+    let s:lower	= "00"
+    let s:i = 1
+    while s:i < 6
+	let s:upper = s:ccube[2*s:i] . s:ccube[2*s:i + 1]
+	let s:cinterval = s:cinterval . s:tohex( (('0x'.s:lower) + ('0x'.s:upper))/2 )
+	let s:lower = s:upper
+	let s:i = s:i + 1
+    endwhile
+
     " {{{2 Get colormap defaults in "s:colormap"
     " On a terminal (without 256 colors), use "standard" colormap. Otherwise
     " use value from "g:xterm16_colormap" if exists, or "soft" as default.
@@ -212,7 +253,7 @@ try
 	let s:colormap = 'soft'
     endif
 
-    " {{{2 Redefine a few colors for CRT monitors
+    " {{{2 Redefine a few colors for CRT monitors and set brightness
     if exists('g:xterm16_CRTColors')
 	if s:colormap == 'standard'
 	    let g:xterm16_darkblue	= 'h000050'
@@ -221,6 +262,7 @@ try
 
 	    unlet! g:xterm16_skyblue g:xterm16_green g:xterm16_bluegreen
 
+	    " give the original xterm16 feel
 	    call s:set_brightness( '#80cdff')
 	else
 	    let g:xterm16_skyblue	= 'h003550'
@@ -229,10 +271,13 @@ try
 
 	    unlet! g:xterm16_darkblue g:xterm16_blue g:xterm16_grey
 
-	    call s:set_brightness ( '345')
+	    " call s:set_brightness ( '245')
+	    " call s:set_brightness('high')
+	    call s:set_brightness('#87d7ff') " 245
 	endif
     else
-	call s:set_brightness( '134')
+	" call s:set_brightness( 'med') " 134
+	call s:set_brightness( '#5fafd7') " 134
     endif
 
     unlet! s:c1 s:c2 s:c3
@@ -250,7 +295,7 @@ try
     let g:xterm16_palette = 'Current palette (Brightness: '.s:brightness. ', Colormap: '.s:colormap.')'
 
     " {{{1 Define colors and highlighting groups based on "s:colormap"
-    let s:trm_none = 'NONE'
+    let s:cterm_none = 'NONE'
     let s:gui_none = 'NONE'
 
     if s:colormap == 'standard'
@@ -331,23 +376,27 @@ try
     elseif s:colormap == 'soft'
 	" {{{2 "soft" colormap. Mix colors and use all colors of similar intensities
 	" Background colors
-	call s:setcolor( 'black',       0,       0,     0)
-	call s:setcolor( 'darkred',     s:l,     0,     0)
-	call s:setcolor( 'darkyellow',  s:l,     s:l,   0)
-	call s:setcolor( 'darkcyan',    0,       s:l,   s:l)
-	call s:setcolor( 'darkblue',    0,       0,     s:l)
-	call s:setcolor( 'darkgrey',    s:l/3,   s:l/3, s:l/3)
+	call s:setcolor( 'black'      , 0        , 0       , 0        )
+	call s:setcolor( 'darkred'    , s:l      , 0       , 0        )
+	call s:setcolor( 'darkyellow' , s:l      , s:l     , 0        )
+	call s:setcolor( 'darkcyan'   , 0        , s:l     , s:l      )
+	call s:setcolor( 'darkblue'   , 0        , 0       , s:l      )
+	call s:setcolor( 'darkgrey'   , s:l/3    , s:l/3   , s:l/3    )
+	" call s:setcolor( 'grey'       , s:l/2    , s:l/2   , s:l/2    )
+	" call s:setcolor( 'lightgrey'  , 2*s:l/3  , 2*s:l/3 , 2*s:l/3  )
+	call s:setcolor( 'grey'       , s:l/2    , s:l/2   , s:l/2    )
+	call s:setcolor( 'lightgrey'  , s:l  , s:l , s:l  )
 
 	" Foreground colors
-	call s:setcolor( 'red',         s:h,     0,     0)     " Foreground: Red
-	call s:setcolor( 'lightbrown',  s:h,     s:h/2, 0)     " Foreground: Orange / Brown
-	call s:setcolor( 'yellow',      s:m,     s:m,   0)     " Foreground: Yellow
-	call s:setcolor( 'green',       s:m/2,   s:m,   0)     " Foreground: Yellowish Green
-	call s:setcolor( 'bluegreen',   0,       s:m,   s:m/2) " Foreground: Blueish Green
-	call s:setcolor( 'skyblue',     0,       s:h/2, s:h)   " Foreground: Sky skyblue
-	call s:setcolor( 'magenta',     s:h*3/4, 0,     s:h)   " Foreground: Magenta / Purple
-	call s:setcolor( 'cyan',        0,       s:m,   s:m)   " Foreground: Cyan
-	call s:setcolor( 'purple',      s:h/2,   s:h/2, s:h)   " Foreground: Light Purple
+	call s:setcolor( 'red'        , s:h      , 0       , 0        )  " Foreground: Red
+	call s:setcolor( 'lightbrown' , s:h      , s:h/2   , 0        )  " Foreground: Orange / Brown
+	call s:setcolor( 'yellow'     , s:m      , s:m     , 0        )  " Foreground: Yellow
+	call s:setcolor( 'green'      , 7*s:m/10 , s:m     , 0        )  " Foreground: Yellowish Green
+	call s:setcolor( 'bluegreen'  , 0        , s:m     , 7*s:m/10 )  " Foreground: Blueish Green
+	call s:setcolor( 'skyblue'    , 0        , s:h/2   , s:h      )  " Foreground: Sky skyblue
+	call s:setcolor( 'magenta'    , s:h*3/4  , 0       , s:h      )  " Foreground: Magenta / Purple
+	call s:setcolor( 'cyan'       , 0        , s:m     , s:m      )  " Foreground: Cyan
+	call s:setcolor( 'purple'     , s:h/2    , s:h/2   , s:h      )  " Foreground: Light Purple
 
 	" Greys can be done with better accurcy on cterms!
 	call s:setcolor( 'white',       s:m*44/50, s:m*44/50,   s:m*44/50)   " Foreground: white
@@ -372,8 +421,10 @@ try
 	call s:hi( 'Search'       , 'none'   , 'black'       , 'darkcyan'   )
 	call s:hi( 'SignColumn'   , 'none'   , 'yellow'      , 'darkgrey'   )
 	call s:hi( 'SpecialKey'   , 'none'   , 'yellow'      , 'none'       )
-	call s:hi( 'StatusLine'   , 'none'   , 'yellow'      , 'darkgrey'   )
-	call s:hi( 'StatusLineNC' , 'none'   , 'darkcyan'    , 'darkgrey'   )
+	" call s:hi( 'StatusLine'   , 'none'   , 'yellow'      , 'darkgrey'   )
+	" call s:hi( 'StatusLineNC' , 'none'   , 'darkcyan'    , 'darkgrey'   )
+	call s:hi( 'StatusLine'   , 'none'   , 'darkblue'    , 'lightgrey'  )
+	call s:hi( 'StatusLineNC' , 'none'   , 'black'       , 'grey'       )
 	call s:hi( 'Title'        , 'none'   , 'yellow'      , 'none'       )
 	call s:hi( 'Visual'       , 'none'   , 'none'        , 'darkblue'   )
 	call s:hi( 'VisualNOS'    , 'none'   , 'white'       , 'darkgrey'   )
@@ -412,8 +463,9 @@ try
 catch /^xterm16 Error:/
     " {{{1 Handle internal exceptions.
     unlet colors_name
+
     echohl ErrorMsg
-    echo v:exception
+    echomsg v:exception
     echohl None
     " }}}1
 finally
@@ -421,19 +473,21 @@ finally
     " Restore compatibility options
     let &cpo = s:cpo_save
     unlet! s:c1 s:c2 s:c3
-    unlet! s:cpo_save s:hex s:l s:m s:h s:trm_none s:gui_none
+    unlet! s:i s:lower s:upper s:ccube s:cinterval
+    unlet! s:cpo_save s:hex s:l s:m s:h s:cterm_none s:gui_none
     unlet! s:gui_black s:gui_darkred s:gui_darkgreen s:gui_darkyellow s:gui_darkblue s:gui_darkmagenta s:gui_darkcyan s:gui_grey s:gui_darkgrey s:gui_red s:gui_green s:gui_yellow s:gui_blue s:gui_magenta s:gui_cyan s:gui_white
-    unlet! s:trm_black s:trm_darkred s:trm_darkgreen s:trm_darkyellow s:trm_darkblue s:trm_darkmagenta s:trm_darkcyan s:trm_grey s:trm_darkgrey s:trm_red s:trm_green s:trm_yellow s:trm_blue s:trm_magenta s:trm_cyan s:trm_white
+    unlet! s:cterm_black s:cterm_darkred s:cterm_darkgreen s:cterm_darkyellow s:cterm_darkblue s:cterm_darkmagenta s:cterm_darkcyan s:cterm_grey s:cterm_darkgrey s:cterm_red s:cterm_green s:cterm_yellow s:cterm_blue s:cterm_magenta s:cterm_cyan s:cterm_white
     unlet! s:gui_lightbrown s:gui_bluegreen s:gui_skyblue s:gui_purple
-    unlet! s:trm_lightbrown s:trm_bluegreen s:trm_skyblue s:trm_purple
+    unlet! s:cterm_lightbrown s:cterm_bluegreen s:cterm_skyblue s:cterm_purple
 
     delfunction s:tohex
     delfunction s:extractRGB
     delfunction s:guilevel
-    delfunction s:trmlevel
+    delfunction s:ctermlevel
     delfunction s:guicolor
-    delfunction s:trmcolor
+    delfunction s:ctermcolor
     delfunction s:setcolor
+    delfunction s:getcolor
     delfunction s:hi
     delfunction s:set_brightness
     " }}}1
