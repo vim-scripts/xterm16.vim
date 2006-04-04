@@ -56,7 +56,7 @@ if( $xdefaults) {
     close( SFILE);
 
     while( <>) {
-	if( m/^\s*(#[0-9a-fA-F]{6})\s+(\w+)\s*$/) {
+	if( m/^\s*(#[0-9a-fA-F]{6}),\s+cterm \d+\s+: (\w+)\s*$/) {
 	    ($cval, $cname) = ($1, $2);
 	    $stext =~ s/\b$cname\b/$cval/g;
 	}
