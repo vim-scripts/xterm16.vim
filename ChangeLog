@@ -1,4 +1,13 @@
 # Changelog for xterm16.vim
+xterm16-2.41
+    Sun 16 Apr 2006 11:08:11 AM CDT; Gautam Iyer <gautam@math.uchicago.edu>
+    - Forgot to add highlighting groups for 'cursorrow' and 'cursorcollumn' in
+      some color maps. Thanks to Georg Dahn for pointing this out.
+
+    - In the all blue colormap, Comment and Identifier were similar colors.
+      This is especially bad in perl programs say. Changed it so that no other
+      color is similar to Comment, thus comments can easily be found.
+
 xterm16-2.4
     Mon 03 Apr 2006 02:53:16 PM CDT; Gautam Iyer <gautam@math.uchicago.edu>
     - Added an "allblue" colormap: This makes most foreground colors a shade
