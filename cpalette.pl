@@ -33,8 +33,11 @@ if( $xdefaults) {
 	print "$class.color", $i++, ":\t$&\n" if( m/^\#[0-9a-f]{6}/);
     }
 
-    print STDERR RED, "Too many colors! Try using the standard colormap\n", RESET
-	if( $i > 15);
+    if( $i > 16 )
+    {
+	print STDERR RED, "Too many colors! Try using the standard colormap\n",
+		RESET
+    }
 } elsif( $genccube) {
     # Generate 6x6x6 color cube
     print STDERR GREEN, "Using resource class $class, and color cube $ccube\n", RESET;
