@@ -1,4 +1,8 @@
-# Changelog for xterm16.vim
+# ChangeLog for xterm16.vim
+xterm16-2.43
+    2006-09-12 Gautam Iyer <gautam@math.stanford.edu>
+    - Added highlighting groups for the Tab line (thanks to Paddy Newman).
+
 xterm16-2.42
     2006-05-18 Gautam Iyer <gautam@math.uchicago.edu>
     - Removed "tags" file from distribution (duh) (Thanks to Suresh
